@@ -1,23 +1,24 @@
-import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Button, TextInput, Text } from 'react-native';
 import RazorpayCheckout from 'react-native-razorpay';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useState } from 'react';
 
 export default function HomeScreen() {
+	const [amount, setAmount] = useState('50');
+
 	return (
-		<SafeAreaView>
-			<ScrollView>
-				<Button title="Pay with Curlec (RM5,000)" onPress={() => {
+		<SafeAreaView style={{ flex: 1 }}>
+			<ScrollView style={{ flex: 1 }}>
+				<Text>Amount</Text>
+				<TextInput value={amount} onChangeText={setAmount} style={{ marginBottom: 12 }} />
+				<Button title="Pay with Curlec" onPress={() => {
 					var options = {
 						description: 'Muscle Gaining Package',
 						image: 'https://i.imgur.com/3g7nmJC.png',
 						currency: 'MYR',
 						key: 'rzp_test_4Qc5BdcMhoHAJP', // Your api key
-						amount: '5000',
-						name: 'foo',
+						amount: parseFloat(amount) * 100, // exclude decimal, if 5000 means 50.00
+						name: 'FitnessMeal',
 						prefill: {
 							email: 'adrian@fitnessmeal.com',
 							contact: '60173628265',
@@ -41,20 +42,4 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-	titleContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 8,
-	},
-	stepContainer: {
-		gap: 8,
-		marginBottom: 8,
-	},
-	reactLogo: {
-		height: 178,
-		width: 290,
-		bottom: 0,
-		left: 0,
-		position: 'absolute',
-	},
 });
